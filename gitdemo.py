@@ -96,9 +96,9 @@ if choice =="Home":
     st.write("")
     st.write("")
     st.write("")
-    centered_text = center_text("FARM ASSISTANCE MODEL")
+    centered_text = center_text("FARM ASSISTANCE MODEL 2.0")
     st.markdown(centered_text, unsafe_allow_html=True)
-    
+    st.write(" by devanshu")
 
 # Create a button that triggers the pop-up dialog
 
