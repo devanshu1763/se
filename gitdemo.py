@@ -99,6 +99,8 @@ if choice =="Home":
     centered_text = center_text("FARM ASSISTANCE MODEL 2.0")
     st.markdown(centered_text, unsafe_allow_html=True)
     st.write(" by devanshu")
+    st.write("mis 112103035")
+    
 
 # Create a button that triggers the pop-up dialog
 
@@ -457,7 +459,7 @@ if  choice=="Help":
                      
                  
 
-                 
+                
     
 if choice=='Crop predictor':
     st.title("Crop prediction model")
