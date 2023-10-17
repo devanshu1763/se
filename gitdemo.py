@@ -54,7 +54,7 @@ with st.sidebar:
 
    choice=option_menu (
      menu_title="Main menu",
-     options=['Home','Soil predictor','Crop predictor','Help',],
+     options=['Home','Soil predictor','Crop predictor','Fertilizers','Help',],
      
      default_index=0,
      
@@ -99,6 +99,8 @@ if choice =="Home":
     centered_text = center_text("FARM ASSISTANCE MODEL 2.0")
     st.markdown(centered_text, unsafe_allow_html=True)
     st.write(" by devanshu")
+    st.write("mis 112103035")
+    
 
 # Create a button that triggers the pop-up dialog
 
@@ -113,8 +115,229 @@ if choice =="Home":
 # Add content to your Streamlit app
 
 
+if choice=="Fertilizers":
 
-   
+     st.title("FERTILIZERS  ")
+     st.markdown("<hr>", unsafe_allow_html=True)
+     
+     nitro =st.text_input("enter nitrogen content( mg/kg)")
+     phos=st.text_input("enter phosphorous ( mg/kg )")
+     pota =st.text_input("enter your potasium( mg/kg)")
+     temp=st.text_input("enter temperature in celcius")
+     options = ["Black soil", "Red soil", "Clayey soil","Loam soil","Sandy soil"]
+
+
+     soil = st.selectbox("Select soiltype", options)
+     options2 = ['Barley','Cotton','Ground Nuts','Maize','Millets','Oil seeds','Paddy','Pulses','Sugarcane','Tobacco','Wheat']
+
+
+     crop = st.selectbox("Select crop u wish to grow", options2)
+    
+     if soil=="Black soil":
+         black=1
+         red=0
+         clayey=0
+         loam=0
+         sandy=0
+     if soil=="Red soil":
+         black=0
+         red=1
+         clayey=0
+         loam=0
+         sandy=0
+     if soil=="Clayey soil":
+         black=0
+         red=0
+         clayey=1
+         loam=0
+         sandy=0
+     if soil=="Loam soil":
+         black=0
+         red=0
+         clayey=0
+         loam=1
+         sandy=0
+     if soil=="Sandy soil":
+         black=0
+         red=0
+         clayey=0
+         loam=0
+         sandy=1
+     if crop=="Barley":
+         barley=1
+         cotton=0
+         gn=0
+         maize=0
+         millet=0
+         oilseed=0
+         paddy=0
+         pulse=0
+         sugarcane=0
+         tobaco=0
+         wheat=0
+
+     if crop=="Cotton":
+         barley=0
+         cotton=1
+         gn=0
+         maize=0
+         millet=0
+         oilseed=0
+         paddy=0
+         pulse=0
+         sugarcane=0
+         tobaco=0
+         wheat=0
+     if crop=="Ground Nuts":
+         barley=0
+         cotton=0
+         gn=1
+         maize=0
+         millet=0
+         oilseed=0
+         paddy=0
+         pulse=0
+         sugarcane=0
+         tobaco=0
+         wheat=0
+     if crop=="Maize":
+         barley=0
+         cotton=0
+         gn=0
+         maize=1
+         millet=0
+         oilseed=0
+         paddy=0
+         pulse=0
+         sugarcane=0
+         tobaco=0
+         wheat=0
+     if crop=="Millets":
+         barley=0
+         cotton=0
+         gn=0
+         maize=0
+         millet=1
+         oilseed=0
+         paddy=0
+         pulse=0
+         sugarcane=0
+         tobaco=0
+         wheat=0
+     if crop=="Oil seeds":
+         barley=0
+         cotton=0
+         gn=0
+         maize=0
+         millet=0
+         oilseed=1
+         paddy=0
+         pulse=0
+         sugarcane=0
+         tobaco=0
+         wheat=0
+     if crop=="Paddy":
+         barley=0
+         cotton=0
+         gn=0
+         maize=0
+         millet=0
+         oilseed=0
+         paddy=1
+         pulse=0
+         sugarcane=0
+         tobaco=0
+         wheat=0
+     if crop=="Pulses":
+         barley=0
+         cotton=0
+         gn=0
+         maize=0
+         millet=0
+         oilseed=0
+         paddy=0
+         pulse=1
+         sugarcane=0
+         tobaco=0
+         wheat=0
+     if crop=="Sugarcane":
+         barley=0
+         cotton=0
+         gn=0
+         maize=0
+         millet=0
+         oilseed=0
+         paddy=0
+         pulse=0
+         sugarcane=1
+         tobaco=0
+         wheat=0
+     if crop=="Tobacco":
+         barley=0
+         cotton=0
+         gn=0
+         maize=0
+         millet=0
+         oilseed=0
+         paddy=0
+         pulse=0
+         sugarcane=0
+         tobaco=1
+         wheat=0
+     if crop=="Wheat":
+         barley=0
+         cotton=0
+         gn=0
+         maize=0
+         millet=0
+         oilseed=0
+         paddy=0
+         pulse=0
+         sugarcane=0
+         tobaco=0
+         wheat=1
+     if st.button("submit"):
+          nitro1=int(nitro) 
+          phos1=int(phos)
+          pota1=int(pota)
+          temp1=int(temp)
+          df=pd.read_csv("C:\\Users\\devan\\Downloads\\cropfer.csv")
+          dummy_df = pd.get_dummies(df['Soil Type'])
+
+          df = pd.concat([df, dummy_df], axis=1)
+          dummy_df = pd.get_dummies(df['Crop Type'])
+          df = pd.concat([df, dummy_df], axis=1)
+          brr=[]
+          le_label=LabelEncoder()
+          df['Fertilize']=le_label.fit_transform(df['Fertilizer Name'])
+          mapping = dict(zip(le_label.transform(le_label.classes_), le_label.classes_))
+          km=KMeans(n_clusters=6,random_state=0)
+          m=km.fit(df[['Temparature','Nitrogen','Potassium','Phosphorous','Black','Clayey','Loamy','Red','Sandy','Barley','Cotton','Ground Nuts','Maize','Millets','Oil seeds','Paddy','Pulses','Sugarcane','Tobacco','Wheat']])
+          brr=m.predict([[temp1,nitro1,pota1,phos1,black,clayey,loam,red,sandy,barley,cotton,gn,maize,millet,oilseed,paddy,pulse,sugarcane,tobaco,wheat]])
+          if brr==0:
+              st.success(" YOU SHOULD USE FERTILIZER- 20-20")
+          if brr==1:
+              st.success(" YOU SHOULD USE FERTILIZER= 14-35-14")
+                                 
+          if brr==2:
+              st.success(" YOU SHOULD USE FERTILIZER= UREA")
+                                 
+          if brr==3:
+              st.success(" YOU SHOULD USE FERTILIZER= 28-28")
+                                 
+          if brr==4:
+              st.success(" YOU SHOULD USE FERTILIZER= DAP")
+                                 
+          if brr==5:
+              st.success(" YOU SHOULD USE FERTILIZER= 10-26-26")
+                                 
+          if brr==6:
+              st.success(" YOU SHOULD USE FERTILIZER= 17-17-17")
+                                 
+                              
+            
+         
+           
 if choice == "Soil predictor":
    
     DATADIR = "C:\\Users\\devan\Downloads\\archive (3)\\Soil types"
@@ -457,7 +680,7 @@ if  choice=="Help":
                      
                  
 
-                 
+                
     
 if choice=='Crop predictor':
     st.title("Crop prediction model")
